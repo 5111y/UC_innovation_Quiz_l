@@ -318,22 +318,6 @@ const QUESTIONS = [
 
 ];
 
-
-/* =========================================================
-   룰렛
-   ※ 기존 룰렛 그대로 유지
-   1등 3칸 / 2등 6칸 / 3등 7칸 / 4등 9칸
-========================================================= */
-
-const ROULETTE_SLOTS = [
-  "1등", "3등", "4등", "3등", "2등",
-  "4등", "2등", "3등", "4등", "3등",
-  "1등", "4등", "3등", "4등", "2등",
-  "2등", "4등", "2등", "4등", "3등",
-  "4등", "1등", "3등", "4등", "2등"
-];
-
-
 /* =========================
    상태값
 ========================= */
@@ -343,9 +327,7 @@ const state = {
   currentQuestion: 0,
   score: 0,
   answered: false,
-  spinning: false,
   nextTimer: null,
-  rotation: 0
 };
 
 
@@ -358,9 +340,7 @@ const $ = (id) => document.getElementById(id);
 const screens = {
   start: $("startScreen"),
   quiz: $("quizScreen"),
-  quizComplete: $("quizCompleteScreen"),
-  roulette: $("rouletteScreen"),
-  result: $("resultScreen")
+  quizComplete: $("quizCompleteScreen")
 };
 
 
@@ -764,7 +744,7 @@ function showQuizComplete() {
     state.nextTimer
   );
 
-
+  /* 정답 개수 표시 */
   if ($("scoreText")) {
 
     $("scoreText").textContent =
@@ -773,161 +753,40 @@ function showQuizComplete() {
   }
 
 
+  /* 정답 개수에 따른 오프라인 게임 기회 */
+  let gameChance;
+
+  if (state.score === 0) {
+
+    gameChance = 1;
+
+  } else if (state.score <= 2) {
+
+    gameChance = 2;
+
+  } else if (state.score <= 4) {
+
+    gameChance = 3;
+
+  } else {
+
+    gameChance = 4;
+
+  }
+
+
+  /* 게임 기회 표시 */
+  if ($("gameChanceText")) {
+
+    $("gameChanceText").textContent =
+      `${gameChance}회`;
+
+  }
+
+
   showScreen(
     screens.quizComplete
   );
-
-}
-
-
-/* =========================
-   룰렛 시작 화면
-========================= */
-
-function showRoulette() {
-
-  showScreen(
-    screens.roulette
-  );
-
-}
-
-
-/* =========================================================
-   룰렛
-   ※ 기존 방식 그대로
-========================================================= */
-
-function spinRoulette() {
-
-  if (state.spinning) {
-    return;
-  }
-
-
-  state.spinning = true;
-
-
-  const roulette =
-    $("roulette");
-
-  const spinButton =
-    $("spinBtn");
-
-
-  if (!roulette) {
-    return;
-  }
-
-
-  if (spinButton) {
-
-    spinButton.disabled = true;
-
-    spinButton.textContent =
-      "돌아가는 중...";
-
-  }
-
-
-  /* 25칸 룰렛 */
-
-  const slotCount =
-    ROULETTE_SLOTS.length;
-
-  const slotAngle =
-    360 / slotCount;
-
-
-  /* 랜덤 당첨 칸 */
-
-  const winningIndex =
-    Math.floor(
-      Math.random() * slotCount
-    );
-
-
-  /* 포인터가 위쪽을 가리키도록 계산 */
-
-  const targetAngle =
-    270 -
-    (
-      winningIndex * slotAngle
-      + slotAngle / 2
-    );
-
-
-  /* 여러 바퀴 회전 */
-
-  const extraRotation =
-    360 *
-    (
-      5 +
-      Math.floor(
-        Math.random() * 3
-      )
-    );
-
-
-  state.rotation +=
-    extraRotation +
-    targetAngle -
-    (
-      state.rotation % 360
-    );
-
-
-  roulette.style.transform =
-    `rotate(${state.rotation}deg)`;
-
-
-  /* 회전 종료 */
-
-  setTimeout(() => {
-
-    const prize =
-      ROULETTE_SLOTS[
-        winningIndex
-      ];
-
-
-    showResult(prize);
-
-  }, 4800);
-
-}
-
-
-/* =========================
-   결과
-========================= */
-
-function showResult(prize) {
-
-  if ($("resultPrize")) {
-
-    $("resultPrize").textContent =
-      prize;
-
-  }
-
-
-  showScreen(
-    screens.result
-  );
-
-
-  state.spinning = false;
-
-
-  if ($("spinBtn")) {
-
-    $("spinBtn").disabled = false;
-
-    $("spinBtn").textContent =
-      "룰렛 돌리기";
-
-  }
 
 }
 
@@ -957,33 +816,3 @@ if ($("startBtn")) {
 }
 
 
-/* 퀴즈 완료 → 룰렛 */
-
-if ($("goRouletteBtn")) {
-
-  $("goRouletteBtn").addEventListener(
-    "click",
-    () => {
-
-      showRoulette();
-
-    }
-  );
-
-}
-
-
-/* 룰렛 */
-
-if ($("spinBtn")) {
-
-  $("spinBtn").addEventListener(
-    "click",
-    () => {
-
-      spinRoulette();
-
-    }
-  );
-
-}
