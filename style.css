@@ -116,6 +116,37 @@ button {
   font-size: 32px;
 }
 
+.game-chance-card {
+  margin: 18px auto 24px;
+  padding: 24px 20px;
+
+  border-radius: 20px;
+
+  background: var(--primary-light);
+
+  text-align: center;
+
+  border: 2px solid rgba(0, 102, 89, 0.12);
+}
+
+.game-chance-card p {
+  margin-bottom: 8px;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.game-chance-card strong {
+  display: block;
+
+  color: var(--primary);
+
+  font-size: 38px;
+  line-height: 1.2;
+}
+
 .complete-message {
   text-align: center;
   line-height: 1.7;
