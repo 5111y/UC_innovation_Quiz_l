@@ -9,7 +9,7 @@
 ========================= */
 
 const QUIZ_COUNT = 5;
-const AUTO_NEXT_DELAY = 1500;
+const AUTO_NEXT_DELAY = 2000;
 
 
 /* =========================
@@ -686,7 +686,7 @@ function answerQuestion(
 
 
   /* =========================
-     1.5초 후 다음 문제
+     2.0초 후 다음 문제
   ========================= */
 
   clearTimeout(
@@ -756,11 +756,11 @@ function showQuizComplete() {
   /* 정답 개수에 따른 오프라인 게임 기회 */
   let gameChance;
 
-  if (state.score === 0) {
+  if (state.score <= 1) {
 
     gameChance = 1;
 
-  } else if (state.score <= 2) {
+  } else if (state.score <= 3) {
 
     gameChance = 2;
 
