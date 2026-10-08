@@ -84,6 +84,46 @@ button {
 }
 
 /* =========================
+   문제 영역
+========================= */
+
+.question-area {
+  position: relative;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* 퀴즈 완료 화면 */
+
+.score-card {
+  margin: 28px auto;
+  padding: 24px;
+  background: #f4f8f7;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.score-card p {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.score-card strong {
+  color: #006659;
+  font-size: 32px;
+}
+
+.complete-message {
+  text-align: center;
+  line-height: 1.7;
+  margin: 24px 0 30px;
+  font-size: 18px;
+}
+
+/* =========================
    로고
 ========================= */
 
@@ -127,6 +167,130 @@ button {
 
   font-weight: 900;
   font-size: 21px;
+}
+
+/* =========================
+   정답/오답 오버레이
+========================= */
+
+.answer-overlay {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+  border-radius: 20px;
+
+  z-index: 10;
+
+  animation: overlayFadeIn 0.2s ease-out;
+}
+
+.answer-overlay[hidden] {
+  display: none;
+}
+
+
+/* 해설 팝업 */
+
+.answer-popup {
+  width: min(82%, 420px);
+
+  padding: 26px 24px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.14);
+
+  animation: popupUp 0.25s ease-out;
+}
+
+
+/* 아이콘 */
+
+.answer-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+}
+
+
+/* 제목 */
+
+.answer-popup h3 {
+  margin: 0 0 14px;
+
+  font-size: 24px;
+  font-weight: 800;
+}
+
+
+/* 해설 */
+
+.answer-popup p {
+  margin: 0;
+
+  font-size: 16px;
+  line-height: 1.65;
+
+  color: #444;
+}
+
+
+/* 정답 */
+
+.answer-overlay.correct .answer-popup {
+  border: 2px solid rgba(0, 102, 89, 0.25);
+}
+
+.answer-overlay.correct .answer-popup h3 {
+  color: #006659;
+}
+
+
+/* 오답 */
+
+.answer-overlay.wrong .answer-popup {
+  border: 2px solid rgba(217, 74, 74, 0.2);
+}
+
+.answer-overlay.wrong .answer-popup h3 {
+  color: #d94a4a;
+}
+
+
+/* 애니메이션 */
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popupUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* =========================
@@ -347,33 +511,6 @@ h2 strong {
 
 .option-btn:disabled {
   cursor: default;
-}
-
-.feedback {
-  margin-top: 15px;
-  padding: 14px;
-
-  border-radius: 15px;
-
-  font-size: 14px;
-  line-height: 1.5;
-  font-weight: 700;
-
-  word-break: keep-all;
-}
-
-.feedback.correct {
-  background: var(--green-light);
-  color: #197155;
-}
-
-.feedback.wrong {
-  background: var(--red-light);
-  color: #b8444e;
-}
-
-.next-btn {
-  margin-top: 12px;
 }
 
 /* =========================
